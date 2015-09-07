@@ -2,17 +2,23 @@
 using System.Collections;
 
 public class Raver : MonoBehaviour {
-    public Sprite _spriteCharacter;
-    public Sprite _spriteEgg;
+    private Sprite _spriteCharacter;
+    private Sprite _spriteEgg;
 
     private SpriteRenderer _spriteRenderer;
     private enum CharacterState {Egg, Main}
     private CharacterState _characterState;
     private int lives = 3;
 
-    void Start () {
+    void Awake ()
+    {
         _spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+    }
+
+    void Start () {
         print(lives);
+        _spriteCharacter = Resources.Load<Sprite>("sprites/character");
+        _spriteEgg = Resources.Load<Sprite>("sprites/egg");
         if(_spriteRenderer.sprite == null)
         {
             _spriteRenderer.sprite = _spriteEgg;
