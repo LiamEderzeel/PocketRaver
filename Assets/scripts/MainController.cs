@@ -3,10 +3,11 @@ using System.Collections;
 
 public class MainController : MonoBehaviour {
 
-    private enum State {App, Game}
-    private static State _currentState;
     private static GameObject _gameController; 
     private static GameObject _appController;
+
+    private enum State {App, Game}
+    private static State _currentState;
 
     void Awake () 
     {
