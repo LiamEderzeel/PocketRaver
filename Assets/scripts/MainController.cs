@@ -3,19 +3,52 @@ using System.Collections;
 
 public class MainController : MonoBehaviour {
 
-    private static GameObject _gameController;
-    private static GameObject _menu;
-    // Use this for initialization
-    void Awake () {
+    private enum State {App, Game}
+    private static State _currentState;
+    private static GameObject _gameController; 
+    private static GameObject _appController;
+
+    void Awake () 
+    {
         _gameController = GameObject.Find("GameController");
         _gameController.SetActive(false);
+
+        _appController = GameObject.Find("AppController");
+        _appController.SetActive(false);
     }
-    void Start () {
-
+    void Start () 
+    {
+        ToApp();
     }
 
-    // Update is called once per frame
-    void Update () {
+    void Update ()
+    {
+        switch(_currentState)
+        {
+            case State.App:
+                _appController.SetActive(true);
+                break;
+            case State.Game:
+                _gameController.SetActive(true);
+                break;
+        }
+    }
 
+    public void ToApp ()
+    {
+        ResetState();
+        _currentState = State.App;
+    }
+    
+    public void ToGame ()
+    {        
+        ResetState();
+        _currentState = State.Game;
+    }
+
+    private static void ResetState () 
+    {
+        _gameController.SetActive(false);
+        _appController.SetActive(false);
     }
 }
