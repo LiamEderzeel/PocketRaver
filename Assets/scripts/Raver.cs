@@ -14,6 +14,6 @@ public class Raver : MonoBehaviour {
 
     }
     void Lose_live () {
-        lives- 1f;
+        lives --;
     }
 }

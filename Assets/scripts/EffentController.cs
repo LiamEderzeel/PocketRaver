@@ -16,31 +16,33 @@ public class EffentController : MonoBehaviour {
 
         switch(_currentDrug)
         {
-            case Drug.Neutral
+            case Drugs.Neutral:
 
                 break;
-            case Drug.MDMA
+            case Drugs.MDMA:
 
                 break;
-            case Drug.Cocaine
+            case Drugs.Cocaine:
 
                 break;
-            case Drug.Wiet
+            case Drugs.Wiet:
 
                 break;
-        }
-        public static void ToNeutral () {
-
-            _currentDrug = Drug.Neutral;
-        }
-
-        public static void ToMDMA () {
-
-            _currentDrug = Drug.MDMA;
-        }
-
-        public static void ToCocaine () {
-
-            _currentDrug = Drug.Cocaine;
         }
     }
+
+    public static void ToNeutral () {
+
+        _currentDrug = Drugs.Neutral;
+    }
+
+    public static void ToMDMA () {
+
+        _currentDrug = Drugs.MDMA;
+    }
+
+    public static void ToCocaine () {
+
+        _currentDrug = Drugs.Cocaine;
+    }
+}
