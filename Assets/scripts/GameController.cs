@@ -8,12 +8,15 @@ public class GameController : MonoBehaviour {
     private static GameObject _minigame2;
     private static GameObject _characterCreation;
     private static GameObject _mainCamera;
+    private static GameObject _raver;
 
     private enum GameState {Main, Minigame1, Minigame2, CharacterCreation}
     private static GameState _gameState;
 
     void Awake ()
     {
+        _raver = GameObject.Find("Raver");
+
         _maingame = GameObject.Find("MainGame");
         _maingame.SetActive(false);
 
@@ -25,8 +28,6 @@ public class GameController : MonoBehaviour {
 
         _characterCreation = GameObject.Find("CharacterCreation");
         _characterCreation.SetActive(false);
-
-        _mainCamera = GameObject.Find("Main Camera");
     } 
 
     void Start ()
@@ -51,6 +52,7 @@ public class GameController : MonoBehaviour {
                 _characterCreation.SetActive(true);
                 break;
         }
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -58,9 +60,9 @@ public class GameController : MonoBehaviour {
 
             if (Physics.Raycast (ray, out _hit))
             {
-                if (_hit.transform.name == "Egg")
+                if (_hit.transform.name == "Raver")
                 {
-                    print("yomama");
+                    _raver.GetComponent<Raver>().SetCharacterMain();
                 }
             }
         }
