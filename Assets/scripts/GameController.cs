@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
@@ -16,7 +17,7 @@ public class GameController : MonoBehaviour {
     void Awake ()
     {
         _raver = GameObject.Find("Raver");
-
+        
         _maingame = GameObject.Find("MainGame");
         _maingame.SetActive(false);
 
@@ -62,7 +63,10 @@ public class GameController : MonoBehaviour {
             {
                 if (_hit.transform.name == "Raver")
                 {
-                    _raver.GetComponent<Raver>().SetCharacterMain();
+                    _raver.GetComponent<Raver>().OpenEgg();
+                    GameObject childObject = Instantiate(_raver,transform.position, transform.rotation) as GameObject;
+                    childObject.transform.parent = _maingame.transform;
+                    _characterCreation.GetComponent<CharacterCreaton>().InterfaceNext.SetActive(true);
                 }
             }
         }

@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class Raver : MonoBehaviour {
-    private Sprite _spriteCharacter;
-    private Sprite _spriteEgg;
+    //private Sprite _spriteCharacter;
+    //private Sprite _spriteEgg;
 
+    private Sprite[] _sprites;
+    private int _generatedRaver;
     private SpriteRenderer _spriteRenderer;
     private enum CharacterState {Egg, Main}
     private CharacterState _characterState;
@@ -16,12 +18,10 @@ public class Raver : MonoBehaviour {
     }
 
     void Start () {
-        print(lives);
-        _spriteCharacter = Resources.Load<Sprite>("sprites/character");
-        _spriteEgg = Resources.Load<Sprite>("sprites/egg");
+        _sprites = Resources.LoadAll<Sprite>("sprites");
         if(_spriteRenderer.sprite == null)
         {
-            _spriteRenderer.sprite = _spriteEgg;
+            SetCharacterEgg();
         }
     }
 
@@ -41,12 +41,23 @@ public class Raver : MonoBehaviour {
     public void SetCharacterEgg ()
     {
         _characterState = CharacterState.Egg;
-        _spriteRenderer.sprite = _spriteEgg;
+        _spriteRenderer.sprite = _sprites[0];
     }
 
     public void SetCharacterMain ()
     {
         _characterState = CharacterState.Main;
-        _spriteRenderer.sprite = _spriteCharacter;
+        _spriteRenderer.sprite = _sprites[_generatedRaver];
+    }
+
+    public void OpenEgg()
+    {
+        GenerateRaver();
+        SetCharacterMain();
+    }
+
+    private void GenerateRaver ()
+    {
+        _generatedRaver = Random.Range(1,4);
     }
 }
