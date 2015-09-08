@@ -6,10 +6,15 @@ public class Raver : MonoBehaviour {
     //private Sprite _spriteEgg;
 
     private Sprite[] _sprites;
-    private int _generatedRaver;
+    public int _generatedRaver;
     private SpriteRenderer _spriteRenderer;
-    private enum CharacterState {Egg, Main}
-    private CharacterState _characterState;
+    public enum CharacterStates {Egg, Main}
+    public CharacterStates CharacterState
+    {
+        get {return _characterState; }
+        set {_characterState = value; }
+    }
+    private CharacterStates _characterState;
     private int lives = 3;
 
     void Awake ()
@@ -28,9 +33,9 @@ public class Raver : MonoBehaviour {
     void Update () {
         switch(_characterState)
         {
-            case CharacterState.Egg:
+            case CharacterStates.Egg:
                 break;
-            case CharacterState.Main:
+            case CharacterStates.Main:
                 break;
         }
     }
@@ -40,13 +45,14 @@ public class Raver : MonoBehaviour {
 
     public void SetCharacterEgg ()
     {
-        _characterState = CharacterState.Egg;
+        _characterState = CharacterStates.Egg;
         _spriteRenderer.sprite = _sprites[0];
+        _generatedRaver = 0;
     }
 
     public void SetCharacterMain ()
     {
-        _characterState = CharacterState.Main;
+        _characterState = CharacterStates.Main;
         _spriteRenderer.sprite = _sprites[_generatedRaver];
     }
 

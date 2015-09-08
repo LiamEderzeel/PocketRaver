@@ -3,27 +3,51 @@ using System.Collections;
 
 public class CharacterCreaton : MonoBehaviour {
 
-    public GameObject InterfaceNext
+    public GameObject Interface
     {
-        get { return _interfaceNext; }
-        set { _interfaceNext = value; }
+        get { return _interface; }
+        set { _interface = value; }
     }
-    private GameObject _interfaceNext;
+    private GameObject _interface;
+    private GameObject _raver;
+    private Raver _raverScript;
 
-	void Awake ()
+    void Awake ()
     {
-        _interfaceNext = GameObject.Find("CharacterCreationCanvas");
-        _interfaceNext.SetActive(false);
-	}
+        _raver = GameObject.Find("Raver");
+        _raverScript = GameObject.Find("Raver").GetComponent<Raver>();
 
-	void Start ()
+        _interface = GameObject.Find("CharacterCreationCanvas");
+        _interface.SetActive(false);
+    }
+
+    void Start ()
     {
 
-	
-	}
-	
-	void Update ()
+
+    }
+
+    void Update ()
     {
-	
-	}
+
+    }
+    public void Reset()
+    {
+        _interface.SetActive(false);
+        _raverScript.SetCharacterEgg();
+    }
+
+    public void OpenEgg()
+    {
+        _interface.SetActive(true);
+
+        _raverScript.OpenEgg();
+    }
+
+    public void ChoseRaver()
+    {
+        GameObject childObject = Instantiate(_raver, transform.position, transform.rotation) as GameObject;
+        childObject.transform.parent = GameController._maingame.transform;
+        GameController.ToMain();
+    }
 }

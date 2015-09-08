@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class GameController : MonoBehaviour {
 
-    private static GameObject _maingame;
+    public static GameObject _maingame;
     private static GameObject _minigame1;
     private static GameObject _minigame2;
     private static GameObject _characterCreation;
@@ -14,10 +14,26 @@ public class GameController : MonoBehaviour {
     private enum GameState {Main, Minigame1, Minigame2, CharacterCreation}
     private static GameState _gameState;
 
+    //Here is a private reference only this class can access
+    private static GameController _instance;
+
+    //This is the public reference that other classes will use
+    public static GameController instance
+    {
+        get
+        {
+            //If _instance hasn't been set yet, we grab it from the scene!
+            //This will only happen the first time this reference is used.
+            if(_instance == null)
+                _instance = GameObject.FindObjectOfType<GameController>();
+            return _instance;
+        }
+    }
+
     void Awake ()
     {
         _raver = GameObject.Find("Raver");
-        
+
         _maingame = GameObject.Find("MainGame");
         _maingame.SetActive(false);
 
@@ -51,28 +67,28 @@ public class GameController : MonoBehaviour {
                 break;
             case GameState.CharacterCreation:
                 _characterCreation.SetActive(true);
-                break;
-        }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-            RaycastHit _hit;
-
-            if (Physics.Raycast (ray, out _hit))
-            {
-                if (_hit.transform.name == "Raver")
+                if (Input.GetMouseButtonDown(0))
                 {
-                    _raver.GetComponent<Raver>().OpenEgg();
-                    GameObject childObject = Instantiate(_raver,transform.position, transform.rotation) as GameObject;
-                    childObject.transform.parent = _maingame.transform;
-                    _characterCreation.GetComponent<CharacterCreaton>().InterfaceNext.SetActive(true);
+                    Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                    RaycastHit _hit;
+
+                    if (Physics.Raycast (ray, out _hit))
+                    {
+                        if (_hit.transform.name == "Raver")
+                        {
+                            if(_raver.GetComponent<Raver>().CharacterState == Raver.CharacterStates.Egg)
+                            {
+                                _characterCreation.GetComponent<CharacterCreaton>().OpenEgg();
+                            }
+                        }
+                    }
                 }
-            }
+                break;
         }
     }
 
-    public void ToMain ()
+    public static void ToMain ()
     {
         ResetState();
         _gameState = GameState.Main;
@@ -96,7 +112,7 @@ public class GameController : MonoBehaviour {
         _gameState = GameState.CharacterCreation;
     }
 
-    private void ResetState ()
+    private static void ResetState ()
     {
         _maingame.SetActive(false);
         _minigame1.SetActive(false);
