@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class GameController : MonoBehaviour {
-
+public class GameController : MonoBehaviour
+{
     public static GameObject _maingame;
     private static GameObject _minigame1;
     private static GameObject _minigame2;

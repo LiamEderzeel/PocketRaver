@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AppController : MonoBehaviour {
-
+public class AppController : MonoBehaviour
+{
     private static GameObject _menuMain;
     private static GameObject _menuTicket;
     private static GameObject _menuInfo;
