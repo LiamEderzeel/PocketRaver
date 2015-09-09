@@ -3,14 +3,6 @@ using System.Collections;
 
 public class MiniGame1 : MonoBehaviour {
 
-    private bool _pil = true;
-    private bool _half1 = true;
-    private bool _half2 = true;
-    private bool _kwarter1 = true;
-    private bool _kwarter2 = true;
-    private bool _kwarter3 = true;
-    private bool _kwarter4 = true;
-
     private GameObject Pil;
     private GameObject PilHalf1;
     private GameObject PilHalf2;
@@ -18,6 +10,8 @@ public class MiniGame1 : MonoBehaviour {
     private GameObject PilKwarter2;
     private GameObject PilKwarter3;
     private GameObject PilKwarter4;
+    private int PilKwartersDestroyed;
+    private bool _playing = true;
 
     void Awake ()
     {
@@ -46,35 +40,77 @@ public class MiniGame1 : MonoBehaviour {
         Vector3 stagingPos = new Vector3(0,0,0);
         Vector3 holdingPos = new Vector3(0,0,-200);
 
-        if (Input.GetMouseButtonDown(0))
+        if(PilKwartersDestroyed >= 3)
+        {
+            print("win");
+            _playing = false;
+        }
+
+        if (Input.GetMouseButtonDown(0) && _playing)
         {
             Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
             RaycastHit _hit;
 
             if (Physics.Raycast (ray, out _hit))
             {
-
                 if(_hit.transform.name == "Pil")
                 {
                     PilHalf1.GetComponent<Transform>().position = Pil.GetComponent<Transform>().position;
+                    PilHalf1.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-1f,0f), Random.Range(-1f,1f),0);
+                    PilHalf1.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                     PilHalf2.GetComponent<Transform>().position = Pil.GetComponent<Transform>().position;
+                    PilHalf2.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0f,1f), Random.Range(-1f,1f),0);
+                    PilHalf2.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                     Pil.GetComponent<Transform>().position = holdingPos;
                 }
                 else if(_hit.transform.name == "PilHalf1" || _hit.transform.name == "PilHalf2")
                 {
-                    print(1);
                     if(_hit.transform.name == "PilHalf1")
                     {
-                        print(2);
                         PilKwarter1.GetComponent<Transform>().position = PilHalf1.GetComponent<Transform>().position;
+                        PilKwarter1.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-1f,0f), Random.Range(0f,1f),0);
+                        PilKwarter2.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                         PilKwarter2.GetComponent<Transform>().position = PilHalf1.GetComponent<Transform>().position;
+                        PilKwarter2.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-1f,0f), Random.Range(-1f,0f),0);
+                        PilKwarter2.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                         PilHalf1.GetComponent<Transform>().position = holdingPos;
                     }
+
                     if(_hit.transform.name == "PilHalf2")
                     {
                         PilKwarter3.GetComponent<Transform>().position = PilHalf2.GetComponent<Transform>().position;
+                        PilKwarter3.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0f,1f), Random.Range(0f,1f),0);
+                        PilKwarter3.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                         PilKwarter4.GetComponent<Transform>().position = PilHalf2.GetComponent<Transform>().position;
+                        PilKwarter4.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(0f,1f), Random.Range(-1f,0f),0);
+                        PilKwarter4.GetComponent<Rigidbody>().AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
                         PilHalf2.GetComponent<Transform>().position = holdingPos;
+                    }
+                }
+                else if(_hit.transform.name == "PilKwarter1" || _hit.transform.name == "PilKwarter2" || _hit.transform.name == "PilKwarter3" || _hit.transform.name == "PilKwarter4")
+                {
+                    if(_hit.transform.name == "PilKwarter1")
+                    {
+                        PilKwartersDestroyed ++;
+                        PilKwarter1.GetComponent<Transform>().position = holdingPos;
+                    }
+
+                    if(_hit.transform.name == "PilKwarter2")
+                    {
+                        PilKwartersDestroyed ++;
+                        PilKwarter2.GetComponent<Transform>().position = holdingPos;
+                    }
+
+                    if(_hit.transform.name == "PilKwarter3")
+                    {
+                        PilKwartersDestroyed ++;
+                        PilKwarter3.GetComponent<Transform>().position = holdingPos;
+                    }
+
+                    if(_hit.transform.name == "PilKwarter4")
+                    {
+                        PilKwartersDestroyed ++;
+                        PilKwarter4.GetComponent<Transform>().position = holdingPos;
                     }
                 }
             }
