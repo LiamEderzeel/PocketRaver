@@ -1,8 +1,9 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/CharacterCreaton.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/scripts/GameController.cs">
     <Files>
-      <File FileName="Assets/scripts/GameController.cs" Line="58" Column="48" />
+      <File FileName="Assets/scripts/Raver.cs" Line="64" Column="1" />
+      <File FileName="Assets/scripts/GameController.cs" Line="76" Column="1" />
       <File FileName="Assets/scripts/CharacterCreaton.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
