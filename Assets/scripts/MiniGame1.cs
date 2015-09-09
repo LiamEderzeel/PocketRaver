@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MiniGame1 : MonoBehaviour {
-
+public class MiniGame1 : MonoBehaviour
+{
+    private GameObject _interfaceWin;
+    private GameObject _interfaceLose;
     private Transform _mouthTransform;
     private Transform _pilTransform;
     private Transform _pilHalf1Transform;
@@ -17,8 +19,13 @@ public class MiniGame1 : MonoBehaviour {
     private Rigidbody _pilKwarter3Rigidbody;
     private Transform _pilKwarter4Transform;
     private Rigidbody _pilKwarter4Rigidbody;
+    //private Vector3 _stagingPos = new Vector3(0,0,0);
+    private Vector3 _holdingPos = new Vector3(0,0,-200);
     private int _pilKwartersDestroyed;
+    private bool _won = false;
+    private bool _timeUp = false;
     private bool _playing = true;
+    private float _timer;
 
     private float _timeTakenDuringLerp = 4f;
     private float _distanceToMove =10f;
@@ -35,6 +42,10 @@ public class MiniGame1 : MonoBehaviour {
 
     void Awake ()
     {
+        _interfaceWin = GameObject.Find("MiniGame1WinCanvas");
+        _interfaceWin.SetActive(false);
+        _interfaceLose = GameObject.Find("MiniGame1LoseCanvas");
+        _interfaceLose.SetActive(false);
         _mouthTransform = GameObject.Find("Mouth").GetComponent<Transform>();
         _pilTransform = GameObject.Find("Pil").GetComponent<Transform>();
         _pilHalf1Transform = GameObject.Find("PilHalf1").GetComponent<Transform>();
@@ -53,25 +64,41 @@ public class MiniGame1 : MonoBehaviour {
 
     void Start ()
     {
-        Vector3 holdingPos = new Vector3(0,0,-200);
-        _pilHalf1Transform.position = holdingPos;
-        _pilHalf2Transform.position = holdingPos;
-        _pilKwarter1Transform.position = holdingPos;
-        _pilKwarter2Transform.position = holdingPos;
-        _pilKwarter3Transform.position = holdingPos;
-        _pilKwarter4Transform.position = holdingPos;
+        Vector3 _holdingPos = new Vector3(0,0,-200);
+        _pilHalf1Transform.position = _holdingPos;
+        _pilHalf2Transform.position = _holdingPos;
+        _pilKwarter1Transform.position = _holdingPos;
+        _pilKwarter2Transform.position = _holdingPos;
+        _pilKwarter3Transform.position = _holdingPos;
+        _pilKwarter4Transform.position = _holdingPos;
         StartLerping();
+        _timer = Time.time + _timeTakenDuringLerp;
     }
 
     void Update ()
     {
-        Vector3 stagingPos = new Vector3(0,0,0);
-        Vector3 holdingPos = new Vector3(0,0,-200);
 
-        if(_pilKwartersDestroyed >= 3)
+        if(_playing)
         {
-            print("win");
-            _playing = false;
+            if(Time.time > _timer)
+            {
+                _timeUp = true;
+            }
+
+            if(_pilKwartersDestroyed >= 3)
+            {
+                //win
+                print("win");
+                _interfaceWin.SetActive(true);
+                _playing = false;
+            }
+            else if(_timeUp)
+            {
+                //lose
+                print("lose");
+                _interfaceLo;p;SetActive(true);
+                _playing = false;
+            }
         }
 
         if (Input.GetMouseButtonDown(0) && _playing)
@@ -89,7 +116,7 @@ public class MiniGame1 : MonoBehaviour {
                     _pilHalf2Transform.position = _pilTransform.position;
                     _pilHalf2Rigidbody.velocity = new Vector3(Random.Range(0f,1f), Random.Range(-1f,1f),0);
                     _pilHalf2Rigidbody.AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
-                    _pilTransform.position = holdingPos;
+                    _pilTransform.position = _holdingPos;
                 }
 
                 else if(_hit.transform.name == "PilHalf1" || _hit.transform.name == "PilHalf2")
@@ -102,7 +129,7 @@ public class MiniGame1 : MonoBehaviour {
                         _pilKwarter2Transform.position = _pilHalf1Transform.position;
                         _pilKwarter2Rigidbody.velocity = new Vector3(Random.Range(-1f,0f), Random.Range(-1f,0f),0);
                         _pilKwarter2Rigidbody.AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
-                        _pilHalf1Transform.position = holdingPos;
+                        _pilHalf1Transform.position = _holdingPos;
                     }
 
                     if(_hit.transform.name == "PilHalf2")
@@ -113,7 +140,7 @@ public class MiniGame1 : MonoBehaviour {
                         _pilKwarter4Transform.position = _pilHalf2Transform.position;
                         _pilKwarter4Rigidbody.velocity = new Vector3(Random.Range(0f,1f), Random.Range(-1f,0f),0);
                         _pilKwarter4Rigidbody.AddRelativeTorque(Vector3.forward * Random.Range(-1f,1f) * 10f);
-                        _pilHalf2Transform.position = holdingPos;
+                        _pilHalf2Transform.position = _holdingPos;
                     }
                 }
 
@@ -122,25 +149,25 @@ public class MiniGame1 : MonoBehaviour {
                     if(_hit.transform.name == "PilKwarter1")
                     {
                         _pilKwartersDestroyed ++;
-                        _pilKwarter1Transform.position = holdingPos;
+                        _pilKwarter1Transform.position = _holdingPos;
                     }
 
                     if(_hit.transform.name == "PilKwarter2")
                     {
                         _pilKwartersDestroyed ++;
-                        _pilKwarter2Transform.position = holdingPos;
+                        _pilKwarter2Transform.position = _holdingPos;
                     }
 
                     if(_hit.transform.name == "PilKwarter3")
                     {
                         _pilKwartersDestroyed ++;
-                        _pilKwarter3Transform.position = holdingPos;
+                        _pilKwarter3Transform.position = _holdingPos;
                     }
 
                     if(_hit.transform.name == "PilKwarter4")
                     {
                         _pilKwartersDestroyed ++;
-                        _pilKwarter4Transform.position = holdingPos;
+                        _pilKwarter4Transform.position = _holdingPos;
                     }
                 }
             }
