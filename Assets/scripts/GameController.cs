@@ -61,22 +61,6 @@ public class GameController : MonoBehaviour
 
             case GameState.Minigame1:
 
-                if (Input.GetMouseButtonDown(0))
-                {
-                    Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-                    RaycastHit _hit;
-
-                    if (Physics.Raycast (ray, out _hit))
-                    {
-                        if (_hit.transform.name == "pill")
-                        {
-                            if(_raver.GetComponent<Raver>().CharacterState == Raver.CharacterStates.Egg)
-                            {
-                                _characterCreation.GetComponent<CharacterCreaton>().OpenEgg();
-                            }
-                        }
-                    }
-                }
                 break;
 
             case GameState.Minigame2:
