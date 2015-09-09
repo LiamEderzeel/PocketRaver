@@ -57,17 +57,32 @@ public class GameController : MonoBehaviour
         switch(_gameState)
         {
             case GameState.Main:
-                _maingame.SetActive(true);
                 break;
-            case GameState.Minigame1:
-                _minigame1.SetActive(true);
-                break;
-            case GameState.Minigame2:
-                _minigame2.SetActive(true);
-                break;
-            case GameState.CharacterCreation:
-                _characterCreation.SetActive(true);
 
+            case GameState.Minigame1:
+
+                if (Input.GetMouseButtonDown(0))
+                {
+                    Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+                    RaycastHit _hit;
+
+                    if (Physics.Raycast (ray, out _hit))
+                    {
+                        if (_hit.transform.name == "pill")
+                        {
+                            if(_raver.GetComponent<Raver>().CharacterState == Raver.CharacterStates.Egg)
+                            {
+                                _characterCreation.GetComponent<CharacterCreaton>().OpenEgg();
+                            }
+                        }
+                    }
+                }
+                break;
+
+            case GameState.Minigame2:
+                break;
+
+            case GameState.CharacterCreation:
                 if (Input.GetMouseButtonDown(0))
                 {
                     Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
@@ -92,24 +107,28 @@ public class GameController : MonoBehaviour
     {
         ResetState();
         _gameState = GameState.Main;
+        _maingame.SetActive(true);
     }
 
     public void ToMinigame1 ()
     {
         ResetState();
         _gameState = GameState.Minigame1;
+        _minigame1.SetActive(true);
     }
 
     public void ToMinigame2 ()
     {
         ResetState();
         _gameState = GameState.Minigame2;
+        _minigame2.SetActive(true);
     }
 
     public void ToCharacterCreation ()
     {
         ResetState();
         _gameState = GameState.CharacterCreation;
+        _characterCreation.SetActive(true);
     }
 
     private static void ResetState ()
