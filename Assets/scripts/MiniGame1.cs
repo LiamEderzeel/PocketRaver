@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MiniGame1 : MonoBehaviour {
 
+    private Transform _mouthTransform;
     private Transform _pilTransform;
     private Transform _pilHalf1Transform;
     private Rigidbody _pilHalf1Rigidbody;
@@ -19,8 +20,22 @@ public class MiniGame1 : MonoBehaviour {
     private int _pilKwartersDestroyed;
     private bool _playing = true;
 
+    private float _timeTakenDuringLerp = 4f;
+    private float _distanceToMove =10f;
+    private Vector3 _startScale = new Vector3(1,1,1);
+    private Vector3 _endScale = new Vector3(4,4,1);
+    private float _timeStartedLerping;
+    private bool _isLerping = false;
+
+    private void StartLerping()
+    {
+        _isLerping = true;
+        _timeStartedLerping = Time.time;
+    }
+
     void Awake ()
     {
+        _mouthTransform = GameObject.Find("Mouth").GetComponent<Transform>();
         _pilTransform = GameObject.Find("Pil").GetComponent<Transform>();
         _pilHalf1Transform = GameObject.Find("PilHalf1").GetComponent<Transform>();
         _pilHalf1Rigidbody = GameObject.Find("PilHalf1").GetComponent<Rigidbody>();
@@ -45,6 +60,7 @@ public class MiniGame1 : MonoBehaviour {
         _pilKwarter2Transform.position = holdingPos;
         _pilKwarter3Transform.position = holdingPos;
         _pilKwarter4Transform.position = holdingPos;
+        StartLerping();
     }
 
     void Update ()
@@ -127,6 +143,22 @@ public class MiniGame1 : MonoBehaviour {
                         _pilKwarter4Transform.position = holdingPos;
                     }
                 }
+            }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(_isLerping)
+        {
+            float timeSinceStarted = Time.time - _timeStartedLerping;
+            float percentageComplete = timeSinceStarted / _timeTakenDuringLerp;
+
+            _mouthTransform.transform.localScale = Vector3.Lerp (_startScale, _endScale, percentageComplete);
+
+            if(percentageComplete >= 1f)
+            {
+                _isLerping = false;
             }
         }
     }
