@@ -10,6 +10,22 @@ public class AppController : MonoBehaviour
     private enum AppState {Main, Ticket, Info}
     private static AppState _appState;
 
+    //Here is a private reference only this class can access
+    private static AppController _instance;
+
+    //This is the public reference that other classes will use
+    public static AppController instance
+    {
+        get
+        {
+            //If _instance hasn't been set yet, we grab it from the scene!
+            //This will only happen the first time this reference is used.
+            if(_instance == null)
+                _instance = GameObject.FindObjectOfType<AppController>();
+            return _instance;
+        }
+    }
+
     void Awake () 
     {
         _menuMain = GameObject.Find("MenuMain");
