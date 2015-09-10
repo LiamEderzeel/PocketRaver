@@ -87,6 +87,11 @@ public class GameController : MonoBehaviour
         }
     }
 
+    public void ToMainW ()
+    {
+        GameController.ToMain ();
+    }
+
     public static void ToMain ()
     {
         ResetState();
@@ -94,21 +99,36 @@ public class GameController : MonoBehaviour
         _maingame.SetActive(true);
     }
 
-    public void ToMinigame1 ()
+    public void ToMiniGame1W ()
+    {
+        GameController.ToMiniGame1();
+    }
+
+    public static void ToMiniGame1 ()
     {
         ResetState();
         _gameState = GameState.Minigame1;
         _minigame1.SetActive(true);
     }
 
-    public void ToMinigame2 ()
+    public void ToMiniGame2W ()
+    {
+        GameController.ToMiniGame2();
+    }
+
+    public static void ToMiniGame2 ()
     {
         ResetState();
         _gameState = GameState.Minigame2;
         _minigame2.SetActive(true);
     }
 
-    public void ToCharacterCreation ()
+    public void ToCharacterCreationW ()
+    {
+        GameController.ToCharacterCreation();
+    }
+
+    public static void ToCharacterCreation ()
     {
         ResetState();
         _gameState = GameState.CharacterCreation;

@@ -96,7 +96,7 @@ public class MiniGame1 : MonoBehaviour
             {
                 //lose
                 print("lose");
-                _interfaceLo;p;SetActive(true);
+                _interfaceLose.SetActive(true);
                 _playing = false;
             }
         }

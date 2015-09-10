@@ -23,7 +23,7 @@ public class Raver : MonoBehaviour {
     }
 
     void Start () {
-        _sprites = Resources.LoadAll<Sprite>("sprites");
+        _sprites = Resources.LoadAll<Sprite>("sprites/character");
         if(_spriteRenderer.sprite == null)
         {
             SetCharacterEgg();
