@@ -6,8 +6,10 @@ public class Raver : MonoBehaviour {
     //private Sprite _spriteEgg;
 
     private Sprite[] _sprites;
+    private RuntimeAnimatorController[] _animationControllers;
     public int _generatedRaver;
     private SpriteRenderer _spriteRenderer;
+    private Animator _animator;
     public enum CharacterStates {Egg, Main}
     public CharacterStates CharacterState
     {
@@ -19,7 +21,11 @@ public class Raver : MonoBehaviour {
 
     void Awake ()
     {
+        _animator = this.gameObject.GetComponent<Animator>();
         _spriteRenderer = this.gameObject.GetComponent<SpriteRenderer>();
+        
+
+        _animationControllers = Resources.LoadAll<RuntimeAnimatorController>("animation/animation_controllers");
     }
 
     void Start () {
@@ -48,12 +54,14 @@ public class Raver : MonoBehaviour {
         _characterState = CharacterStates.Egg;
         _spriteRenderer.sprite = _sprites[0];
         _generatedRaver = 0;
+        _animator.SetBool("clicked", false);
     }
 
     public void SetCharacterMain ()
     {
         _characterState = CharacterStates.Main;
-        _spriteRenderer.sprite = _sprites[_generatedRaver];
+        _animator.runtimeAnimatorController = _animationControllers[_generatedRaver];
+        _animator.SetBool("clicked", true);
     }
 
     public void OpenEgg()
@@ -64,6 +72,6 @@ public class Raver : MonoBehaviour {
 
     private void GenerateRaver ()
     {
-        _generatedRaver = Random.Range(1,4);
+        _generatedRaver = Random.Range(0,4);
     }
 }

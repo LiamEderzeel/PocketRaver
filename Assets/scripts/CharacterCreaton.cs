@@ -49,5 +49,6 @@ public class CharacterCreaton : MonoBehaviour {
         GameObject childObject = Instantiate(_raver, transform.position, transform.rotation) as GameObject;
         childObject.transform.parent = GameController._maingame.transform;
         GameController.ToMain();
+        childObject.GetComponent<Animator>().SetBool ("clicked", true);
     }
 }
