@@ -46,8 +46,9 @@ public class CharacterCreaton : MonoBehaviour {
 
     public void ChoseRaver()
     {
-        GameObject childObject = Instantiate(_raver, transform.position, transform.rotation) as GameObject;
+        GameObject childObject = Instantiate(_raver, transform.position, transform.rotation) as GameObject;          
         childObject.transform.parent = GameController._maingame.transform;
+        childObject.transform.position = _raver.transform.position;
         GameController.ToMain();
         childObject.GetComponent<Animator>().SetBool ("clicked", true);
     }

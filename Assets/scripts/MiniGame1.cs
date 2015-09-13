@@ -5,7 +5,10 @@ public class MiniGame1 : MonoBehaviour
 {
     private GameObject _interfaceWin;
     private GameObject _interfaceLose;
+    private GameObject _mouth;
+    private Sprite[] _backgroundSprites;
     private Transform _mouthTransform;
+    private SpriteRenderer _mouthSpriteRenderer;
     private Transform _pilTransform;
     private Transform _pilHalf1Transform;
     private Rigidbody _pilHalf1Rigidbody;
@@ -27,7 +30,7 @@ public class MiniGame1 : MonoBehaviour
     private bool _playing = true;
     private float _timer;
 
-    private float _timeTakenDuringLerp = 4f;
+    private float _timeTakenDuringLerp = 10f;
     private float _distanceToMove =10f;
     private Vector3 _startScale = new Vector3(1,1,1);
     private Vector3 _endScale = new Vector3(4,4,1);
@@ -46,7 +49,11 @@ public class MiniGame1 : MonoBehaviour
         _interfaceWin.SetActive(false);
         _interfaceLose = GameObject.Find("MiniGame1LoseCanvas");
         _interfaceLose.SetActive(false);
-        _mouthTransform = GameObject.Find("Mouth").GetComponent<Transform>();
+        _mouth = GameObject.Find("Mouth");
+        _mouthTransform = _mouth.GetComponent<Transform>();
+        _mouthSpriteRenderer = _mouth.GetComponent<SpriteRenderer>();
+        _backgroundSprites = Resources.LoadAll<Sprite>("sprites/mouth");
+        _mouthSpriteRenderer.sprite = _backgroundSprites[0];
         _pilTransform = GameObject.Find("Pil").GetComponent<Transform>();
         _pilHalf1Transform = GameObject.Find("PilHalf1").GetComponent<Transform>();
         _pilHalf1Rigidbody = GameObject.Find("PilHalf1").GetComponent<Rigidbody>();
@@ -182,6 +189,23 @@ public class MiniGame1 : MonoBehaviour
             float percentageComplete = timeSinceStarted / _timeTakenDuringLerp;
 
             _mouthTransform.transform.localScale = Vector3.Lerp (_startScale, _endScale, percentageComplete);
+
+            if(percentageComplete < 0.25f)
+            {
+                _mouthSpriteRenderer.sprite = _backgroundSprites[0];
+            }
+            else if(percentageComplete > 0.25f && percentageComplete < 0.5f)
+            {
+                _mouthSpriteRenderer.sprite = _backgroundSprites[1];
+            }
+            else if(percentageComplete > 0.5f && percentageComplete < 0.75f)
+            {
+                _mouthSpriteRenderer.sprite = _backgroundSprites[2];
+            }
+            else if(percentageComplete > 0.75f)
+            {
+                _mouthSpriteRenderer.sprite = _backgroundSprites[2];
+            }
 
             if(percentageComplete >= 1f)
             {
