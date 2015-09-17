@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MiniGame1 : MonoBehaviour
 {
+    private GameObject _interfaceStart;
     private GameObject _interfaceWin;
     private GameObject _interfaceLose;
     private GameObject _mouth;
@@ -27,7 +28,7 @@ public class MiniGame1 : MonoBehaviour
     private int _pilKwartersDestroyed;
     private bool _won = false;
     private bool _timeUp = false;
-    private bool _playing = true;
+    private bool _playing = false;
     private float _timer;
 
     private float _timeTakenDuringLerp = 10f;
@@ -36,7 +37,6 @@ public class MiniGame1 : MonoBehaviour
     private Vector3 _endScale = new Vector3(4,4,1);
     private float _timeStartedLerping;
     private bool _isLerping = false;
-
     private void StartLerping()
     {
         _isLerping = true;
@@ -45,6 +45,7 @@ public class MiniGame1 : MonoBehaviour
 
     void Awake ()
     {
+        _interfaceStart = GameObject.Find("MiniGame1StartCanvas");
         _interfaceWin = GameObject.Find("MiniGame1WinCanvas");
         _interfaceWin.SetActive(false);
         _interfaceLose = GameObject.Find("MiniGame1LoseCanvas");
@@ -78,8 +79,6 @@ public class MiniGame1 : MonoBehaviour
         _pilKwarter2Transform.position = _holdingPos;
         _pilKwarter3Transform.position = _holdingPos;
         _pilKwarter4Transform.position = _holdingPos;
-        StartLerping();
-        _timer = Time.time + _timeTakenDuringLerp;
     }
 
     void Update ()
@@ -212,5 +211,13 @@ public class MiniGame1 : MonoBehaviour
                 _isLerping = false;
             }
         }
+    }
+
+    public void StartGame ()
+    {
+        _playing = true;
+        StartLerping();
+        _timer = Time.time + _timeTakenDuringLerp;
+        _interfaceStart.SetActive(false);
     }
 }
